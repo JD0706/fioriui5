@@ -4,16 +4,58 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
         <content >
+        <HBox >
           
     <Label id= "labelEmployee" text="{i18n>labelEmployee}" class="sapUiTinyMargin"/>
-     <Input id= "inputEmployee" value="{/employeeId}" maxLength="6" width="200px" class="sapUiSmallMarginEnd" liveChange="onValidate" ></Input>
-    <Label  id="labelCountry" text="{i18n>labelCountry}" class="sapUiTinyMargin" visible="false"></Label>
-    <Select id="slCountry" selectedKey="{/countrykey}" items="{/listCountry}" forceSelection="false" visible="false">
+     <Input id= "inputEmployee" value="{/employeeId}" maxLength="6" width="200px" class="sapUiSmallMarginEnd"  ></Input> 
+    <Select id="slCountry" selectedKey="{/countrykey}" items="{/listCountry}" forceSelection="false" >
          <items>
             <core:Item key="{key}" text="{text}"/>
          </items>
      </Select>
-</content>
+     <Button id="btnFilter" text ="{i18n>btnFilter}" icon = "sap-icon://search" press="onFilter" class="sapUiSmallMarginEnd"></Button>
+     <Button id="btnClearFilter" text ="{i18n>btnClearFilter}" icon = "sap-icon://clear-filter" press="onClearFilter" class="sapUiSmallMarginEnd"></Button>
+     </HBox>
+       <HBox >
+        <Panel >
+         <Table id="tableEmployee" items="{/employees}" >
+         <columns>
+         <Column >
+          <header>
+            <Label text="{i18n>tableid}"/>
+          </header>
+         </Column>
+         <Column >
+          <header>
+            <Label text="{i18n>tableName}"/>
+          </header>
+         </Column>
+         <Column >
+          <header>
+            <Label text="{i18n>tableCountry}"/>
+          </header>
+         </Column>
+         <Column >
+          <header>
+            <Label text="{i18n>tabeCity}"/>
+          </header>
+         </Column>
+         </columns>
+         <items>
+          <ColumnListItem type="Active" press="showPostalCode" >
+          <cells>
+            <Label text="{EmployeeID}" ></Label>
+            <Label text="{LastName}" ></Label>
+            <Label text="{Country}" ></Label>
+            <Label text="{City}" ></Label>
+           </cells>
+           
+          </ColumnListItem>
+         </items>
+         </Table>
+        </Panel>
+        </HBox>
+ </content>
 
     </Page>
 </mvc:View>
