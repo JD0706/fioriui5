@@ -21,7 +21,7 @@ sap.ui.define([
         }
 
        function onFilter(){
-             var oJson = this.getView().getModel().getData();
+             var oJson = this.getView().getModel("jsonCountries").getData();
              var filters = [];
              if(oJson.employeeId !==""){
                filters.push(new sap.ui.model.Filter("EmployeeID", "EQ" ,oJson.employeeId))
@@ -35,7 +35,7 @@ sap.ui.define([
           }
 
           function onClearFilter() {
-            var oModel = this.getView().getModel();
+            var oModel = this.getView().getModel("jsonCountries");
             oModel.setProperty("/employeeId","")
             oModel.setProperty("/countrykey","")
            } 
@@ -43,46 +43,60 @@ sap.ui.define([
 
            function showPostalCode(oEvent){
             var itemPressed = oEvent.getSource();
-            var context = itemPressed.getBindingContext();
+            var context = itemPressed.getBindingContext("jsonEmployees");
             var object  =  context.getObject() ;
             sap.m.MessageToast.show(object.PostalCode);
             
            }
 
+           function onShowCity(oEvent){
+           var oJsonModelConfig=this.getView().getModel("jsonModelConfig")
+               oJsonModelConfig.setProperty("/visibleCity",true);
+               oJsonModelConfig.setProperty("/visibleBtnShowCity",false);
+               oJsonModelConfig.setProperty("/visibleBtnHideCity",true);
+         }
+
+         function onsHideCity(oEvent){
+          var oJsonModelConfig=this.getView().getModel("jsonModelConfig")
+             oJsonModelConfig.setProperty("/visibleCity",false);
+             oJsonModelConfig.setProperty("/visibleBtnShowCity",true);
+             oJsonModelConfig.setProperty("/visibleBtnHideCity",false);
+       }
+        
+
            
            return Controller.extend("logaligroup.employees.controller.View1", {
             onAfterRendering: function () {
-                var   oJSONModel = new sap.ui.model.json.JSONModel();
                 var   oView = this.getView();
-                var   i18nBundle = oView.getModel("i18n").getResourceBundle();
-
-
-              /*  var oJSON = 
-              {
-                    employeeId : "123456",
-                    countrykey: "UK",
-                    listCountry: [
-                  { 
-                   key: "US",
-                  text: i18nBundle.getText("countryUS")
-                  },
-                  {
-                    key: "UK",
-                    text: i18nBundle.getText("countryUK")
-                  },
-                 {
-                   key: "ES",
-                  text: i18nBundle.getText("countryES")
-                  }
-                 ]
-                };*/
-                oJSONModel.loadData("./localService/mockdata/Employees.json",false);
+                var   oJSONModel = new sap.ui.model.json.JSONModel();
                 
-                oView.setModel(oJSONModel);
+                var   i18nBundle = oView.getModel("i18n").getResourceBundle();
+                oJSONModel.loadData("./localService/mockdata/Employees.json",false);
+                oView.setModel(oJSONModel,"jsonEmployees");
+
+                var   oJSONModelCountries = new sap.ui.model.json.JSONModel();
+                oJSONModelCountries.loadData("./localService/mockdata/Countries.json",false);
+                oView.setModel(oJSONModelCountries,"jsonCountries");
+
+                var oJsonModelConfig = new sap.ui.model.json.JSONModel({
+
+                    visibleID :true,
+                    visibleName :true,
+                    visibleCity :false,
+                    visiblebtnShowCity :true,
+                    visiblebtnHideCity :false
+                    
+  
+                  })
+                  oView.setModel(oJsonModelConfig,"jsonModelConfig");
+  
+
              },
              onValidate:onValidate,
              onFilter:  onFilter,
              onClearFilter:onClearFilter,
-             showPostalCode:showPostalCode
+             showPostalCode:showPostalCode,
+             onsHideCity:onsHideCity,
+             onShowCity:onShowCity
         });  
     });

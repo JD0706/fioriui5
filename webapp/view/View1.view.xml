@@ -7,10 +7,10 @@
         <HBox >
           
     <Label id= "labelEmployee" text="{i18n>labelEmployee}" class="sapUiTinyMargin"/>
-     <Input id= "inputEmployee" value="{/employeeId}" maxLength="6" width="200px" class="sapUiSmallMarginEnd"  ></Input> 
-    <Select id="slCountry" selectedKey="{/countrykey}" items="{/listCountry}" forceSelection="false" >
+     <Input id= "inputEmployee" value="{jsonCountries>/employeeId}" maxLength="6" width="200px" class="sapUiSmallMarginEnd"  ></Input> 
+    <Select id="slCountry" selectedKey="{jsonCountries>/countrykey}" items="{jsonCountries>/listCountry}" forceSelection="false" >
          <items>
-            <core:Item key="{key}" text="{text}"/>
+            <core:Item key="{jsonCountries>key}" text="{jsonCountries>text}"/>
          </items>
      </Select>
      <Button id="btnFilter" text ="{i18n>btnFilter}" icon = "sap-icon://search" press="onFilter" class="sapUiSmallMarginEnd"></Button>
@@ -18,24 +18,26 @@
      </HBox>
        <HBox >
         <Panel >
-         <Table id="tableEmployee" items="{/employees}" >
+         <Button id="btnShowCity" text="{i18n>showCity}" visible="{jsonModelConfig>/visibleBtnShowCity}" press = "onShowCity"/>
+        <Button id="btnHideCity" text="{i18n>HideCity}" visible="{jsonModelConfig>/visibleBtnHideCity}" press = "onsHideCity"/>
+         <Table id="tableEmployee" items="{jsonEmployees>/}" >
          <columns>
-         <Column >
+         <Column visible ="{jsonModelConfig>/visibleID}">
           <header>
             <Label text="{i18n>tableid}"/>
           </header>
          </Column>
-         <Column >
+         <Column visible ="{jsonModelConfig>/visibleName}">
           <header>
             <Label text="{i18n>tableName}"/>
           </header>
          </Column>
-         <Column >
+         <Column  >
           <header>
             <Label text="{i18n>tableCountry}"/>
           </header>
          </Column>
-         <Column >
+         <Column visible ="{jsonModelConfig>/visibleCity}">
           <header>
             <Label text="{i18n>tabeCity}"/>
           </header>
@@ -44,10 +46,10 @@
          <items>
           <ColumnListItem type="Active" press="showPostalCode" >
           <cells>
-            <Label text="{EmployeeID}" ></Label>
-            <Label text="{LastName}" ></Label>
-            <Label text="{Country}" ></Label>
-            <Label text="{City}" ></Label>
+            <Label text="{jsonEmployees>EmployeeID}" ></Label>
+            <Label text="{jsonEmployees>LastName}" ></Label>
+            <Label text="{jsonEmployees>Country}" ></Label>
+            <Label text="{jsonEmployees>City}" ></Label>
            </cells>
            
           </ColumnListItem>
