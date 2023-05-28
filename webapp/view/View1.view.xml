@@ -39,7 +39,7 @@
          </Column>
          <Column visible ="{jsonModelConfig>/visibleCity}">
           <header>
-            <Label text="{i18n>tabeCity}"/>
+            <Label text="{i18n>tableCity}"/>
           </header>
          </Column>
          </columns>
